@@ -615,6 +615,7 @@ function Library:UpdateSearch(SearchText)
         end
 
         for _, Tabbox in pairs(Library.LastSearchTab.Tabboxes) do
+            if not Tabbox then continue end
             for _, Tab in pairs(Tabbox.Tabs) do
                 for _, ElementInfo in pairs(Tab.Elements) do
                     ElementInfo.Holder.Visible = typeof(ElementInfo.Visible) == "boolean" and ElementInfo.Visible
@@ -736,6 +737,7 @@ function Library:UpdateSearch(SearchText)
     end
 
     for _, Tabbox in pairs(Library.ActiveTab.Tabboxes) do
+        if not Tabbox then continue end
         local VisibleTabs = 0
         local VisibleElements = {}
 
