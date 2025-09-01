@@ -637,7 +637,9 @@ function Library:UpdateSearch(SearchText)
                 Tab.ButtonHolder.Visible = true
             end
 
-            Tabbox.ActiveTab:Resize()
+            if Tabbox.ActiveTab then
+                Tabbox.ActiveTab:Resize()
+            end
             Tabbox.Holder.Visible = true
         end
 
@@ -670,7 +672,7 @@ function Library:UpdateSearch(SearchText)
 
     --// Cancel Search if Search Text is empty
     local Search = SearchText:lower()
-    if Trim(Search) == "" or Library.ActiveTab.IsKeyTab then
+    if Trim(Search) == "" or not Library.ActiveTab or Library.ActiveTab.IsKeyTab then
         Library.Searching = false
         Library.LastSearchTab = nil
         return
@@ -792,7 +794,7 @@ function Library:UpdateSearch(SearchText)
 
                 if Tabbox.ActiveTab == Tab then
                     Tab:Resize()
-                elseif VisibleElements[Tabbox.ActiveTab] == 0 then
+                elseif Tabbox.ActiveTab and VisibleElements[Tabbox.ActiveTab] == 0 then
                     Tab:Show()
                 end
             end
@@ -3870,8 +3872,10 @@ function Funcs:AddImage(Idx, Info)
                 return
             end
 
-            for _, Side in pairs(Library.ActiveTab.Sides) do
-                Side.ScrollingEnabled = false
+            if Library.ActiveTab then
+                for _, Side in pairs(Library.ActiveTab.Sides) do
+                    Side.ScrollingEnabled = false
+                end
             end
 
             while IsClickInput(Input) do
@@ -3890,8 +3894,10 @@ function Funcs:AddImage(Idx, Info)
                 RunService.RenderStepped:Wait()
             end
 
-            for _, Side in pairs(Library.ActiveTab.Sides) do
-                Side.ScrollingEnabled = true
+            if Library.ActiveTab then
+                for _, Side in pairs(Library.ActiveTab.Sides) do
+                    Side.ScrollingEnabled = true
+                end
             end
         end)
 
